@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Point Library</title>
+  <style>
+    :root {
+      --bg: #f5f1ea;
+      --surface: rgba(255, 252, 247, 0.92);
+      --surface-2: #fffdf9;
+      --ink: #1f2937;
+      --muted: #5f6b7a;
+      --accent: #0f766e;
+      --accent-dark: #115e59;
+      --warm: #b45309;
+      --line: rgba(31, 41, 55, 0.12);
+      --shadow: 0 24px 60px rgba(17, 94, 89, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, 0.14), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(180, 83, 9, 0.12), transparent 24%),
+        linear-gradient(180deg, #fffcf8, var(--bg));
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 28px));
+      margin: 16px auto 36px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 24px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 26px rgba(31, 41, 55, 0.06);
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+    }
+
+    .brand {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--accent-dark);
+    }
+
+    .nav {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.98rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      margin-top: 18px;
+    }
+
+    .hero-main,
+    .hero-side,
+    .card,
+    .wide-card,
+    .notice {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      overflow: hidden;
+      min-height: 480px;
+      position: relative;
+      display: flex;
+      align-items: end;
+      background:
+        linear-gradient(180deg, rgba(15, 118, 110, 0.12), rgba(15, 23, 42, 0.75)),
+        url("study%20banner.png") center/cover no-repeat;
+    }
+
+    .hero-overlay {
+      width: 100%;
+      padding: 42px;
+      color: white;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.45));
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.6rem, 7vw, 5.1rem);
+      line-height: 0.95;
+      max-width: 680px;
+    }
+
+    .hero-overlay p {
+      font-size: 1.08rem;
+      line-height: 1.8;
+      max-width: 620px;
+      margin: 18px 0 0;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .hero-side {
+      padding: 26px;
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .quick-box {
+      padding: 18px;
+      border-radius: 20px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+    }
+
+    .quick-box strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent-dark);
+      font-size: 1.08rem;
+    }
+
+    .layout {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card,
+    .wide-card,
+    .notice {
+      padding: 26px;
+    }
+
+    .wide-card {
+      grid-column: span 2;
+    }
+
+    h2, h3 {
+      margin-top: 0;
+    }
+
+    p, li {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: var(--surface-2);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .table th,
+    .table td {
+      padding: 14px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.97rem;
+    }
+
+    .table th {
+      color: var(--accent-dark);
+      background: rgba(15, 118, 110, 0.08);
+    }
+
+    .badge-row,
+    .contact-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .badge-row {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 16px;
+    }
+
+    .badge {
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+    }
+
+    .badge strong {
+      display: block;
+      color: var(--warm);
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+
+    .notice {
+      background: linear-gradient(135deg, rgba(180, 83, 9, 0.08), rgba(255, 255, 255, 0.95));
+    }
+
+    .contact-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 12px;
+    }
+
+    .contact-item {
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+    }
+
+    .contact-item span {
+      display: block;
+      font-size: 0.84rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 8px 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 960px) {
+      .hero,
+      .layout,
+      .badge-row,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .wide-card {
+        grid-column: span 1;
+      }
+
+      .topbar {
+        position: static;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-overlay,
+      .hero-side,
+      .card,
+      .wide-card,
+      .notice {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">Study Point Library</div>
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#payment">Payment</a>
+        <a href="#routine">Routine</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-main">
+        <div class="hero-overlay">
+          <div class="tag">Library Information Portal</div>
+          <h1>Study Point Library</h1>
+          <p>
+            This website is made for Study Point Library so students can check important
+            information in one place, including payment details, routine timing, notices,
+            admission information, and contact details.
+          </p>
+        </div>
+      </div>
+
+      <aside class="hero-side">
+        <div class="quick-box">
+          <strong>Opening Time</strong>
+          <p>06:00 AM to 08:00 PM</p>
+        </div>
+        <div class="quick-box">
+          <strong>Admission Status</strong>
+          <p>Open for new students</p>
+        </div>
+        <div class="quick-box">
+          <strong>Monthly Fee</strong>
+          <p>Update fee amount here</p>
+        </div>
+        <div class="quick-box">
+          <strong>Library Address</strong>
+          <p>Enter full library address here</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="layout">
+      <article class="wide-card" id="about">
+        <h2>About Study Point Library</h2>
+        <p>
+          Study Point Library is a student-focused learning space where visitors can get a
+          peaceful study environment, organized seating, daily routine support, and updated
+          library information. This page is designed so all important details are available
+          in one place.
+        </p>
+        <div class="badge-row">
+          <div class="badge">
+            <strong>100+</strong>
+            Student-friendly environment
+          </div>
+          <div class="badge">
+            <strong>Daily</strong>
+            Routine and notice updates
+          </div>
+          <div class="badge">
+            <strong>Easy</strong>
+            Payment information access
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Services</h3>
+        <ul>
+          <li>Reading room facility</li>
+          <li>Quiet study space</li>
+          <li>Daily attendance support</li>
+          <li>Admission and fee guidance</li>
+          <li>Routine and notice information</li>
+        </ul>
+      </article>
+
+      <article class="wide-card" id="payment">
+        <h2>Payment Details</h2>
+        <p>
+          Students can check fee-related information here. Replace the sample values below
+          with the real fee structure, due date, and payment method used by the library.
+        </p>
+        <table class="table">
+          <tr>
+            <th>Plan</th>
+            <th>Fee</th>
+            <th>Due Date</th>
+            <th>Status</th>
+          </tr>
+          <tr>
+            <td>Monthly Seat</td>
+            <td>Enter amount</td>
+            <td>Every month</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>Admission Fee</td>
+            <td>Enter amount</td>
+            <td>One time</td>
+            <td>Available</td>
+          </tr>
+          <tr>
+            <td>Late Fee</td>
+            <td>Enter amount</td>
+            <td>After due date</td>
+            <td>If applicable</td>
+          </tr>
+        </table>
+        <p>
+          Payment Method: Cash / UPI / Bank Transfer
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Payment Notes</h3>
+        <ul>
+          <li>Keep payment receipt safely</li>
+          <li>Pay before the due date</li>
+          <li>Contact library desk for confirmation</li>
+          <li>Update UPI number or bank details here</li>
+        </ul>
+      </article>
+
+      <article class="wide-card" id="routine">
+        <h2>Routine Details</h2>
+        <p>
+          This section can show the daily or weekly routine of the library. Students can
+          check seat timing, opening hours, special schedule, and important day-wise details.
+        </p>
+        <table class="table">
+          <tr>
+            <th>Day</th>
+            <th>Morning Time</th>
+            <th>Evening Time</th>
+            <th>Remark</th>
+          </tr>
+          <tr>
+            <td>Monday</td>
+            <td>06:00 AM - 12:00 PM</td>
+            <td>01:00 PM - 08:00 PM</td>
+            <td>Regular routine</td>
+          </tr>
+          <tr>
+            <td>Tuesday</td>
+            <td>06:00 AM - 12:00 PM</td>
+            <td>01:00 PM - 08:00 PM</td>
+            <td>Regular routine</td>
+          </tr>
+          <tr>
+            <td>Wednesday</td>
+            <td>06:00 AM - 12:00 PM</td>
+            <td>01:00 PM - 08:00 PM</td>
+            <td>Regular routine</td>
+          </tr>
+          <tr>
+            <td>Thursday</td>
+            <td>06:00 AM - 12:00 PM</td>
+            <td>01:00 PM - 08:00 PM</td>
+            <td>Regular routine</td>
+          </tr>
+          <tr>
+            <td>Friday</td>
+            <td>06:00 AM - 12:00 PM</td>
+            <td>01:00 PM - 08:00 PM</td>
+            <td>Regular routine</td>
+          </tr>
+          <tr>
+            <td>Saturday</td>
+            <td>06:00 AM - 12:00 PM</td>
+            <td>01:00 PM - 08:00 PM</td>
+            <td>Special study support</td>
+          </tr>
+          <tr>
+            <td>Sunday</td>
+            <td>Enter timing</td>
+            <td>Enter timing</td>
+            <td>Update if open</td>
+          </tr>
+        </table>
+      </article>
+
+      <article class="card">
+        <h3>Routine Notes</h3>
+        <ul>
+          <li>Silence must be maintained in the library</li>
+          <li>Students should arrive on time</li>
+          <li>Seats must be used properly</li>
+          <li>Follow all library rules and updates</li>
+        </ul>
+      </article>
+
+      <section class="notice">
+        <h2>Latest Notice</h2>
+        <p>
+          Admissions are open. Students should complete registration and payment on time.
+          Update this notice area whenever there is any new rule, holiday, timing change, or fee announcement.
+        </p>
+      </section>
+
+      <section class="wide-card" id="contact">
+        <h2>Contact Details</h2>
+        <p>
+          Add the official contact information of Study Point Library below so visitors can
+          reach the library easily.
+        </p>
+        <div class="contact-grid">
+          <div class="contact-item">
+            <span>Phone Number</span>
+            Enter phone number here
+          </div>
+          <div class="contact-item">
+            <span>Email</span>
+            Enter email here
+          </div>
+          <div class="contact-item">
+            <span>Address</span>
+            Enter full address here
+          </div>
+          <div class="contact-item">
+            <span>UPI / Payment ID</span>
+            Enter UPI ID here
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <footer>
+      Study Point Library website page created for payment, routine, and complete library information.
+    </footer>
+  </div>
+</body>
+</html>
